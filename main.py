@@ -18,33 +18,32 @@ def data(ENDPOINT):
 	return response.json()
 
 def send(payload):
-	response = POST(WEBHOOK_URL, json=payload)
+    response = POST(WEBHOOK_URL, json=payload)
 	
 def main():
-		while True:
-			
-				recent_title = data(VIDEO_ENDPOINT)['items'][0]['snippet']['title']
-				
-			with open('recent_title.txt', 'w') as file:
-				file.write(recent_title)
-			with open('recent_title.txt', 'r') as file:
-				recent_title = file.read()
+    while True:
+        recent_title = data(VIDEO_ENDPOINT)['items'][0]['snippet']['title']
+        
+        with open('recent_title.txt', 'w') as file:
+            file.write(recent_title)
+        with open('recent_title.txt', 'r') as file:
+            recent_title = file.read()
 
-			time.sleep(599.5)
+        time.sleep(599.5)
 
-			videoData = data(VIDEO_ENDPOINT)
-			thumbnailData = data(THUMBNAIL_ENDPOINT)
+        videoData = data(VIDEO_ENDPOINT)
+        thumbnailData = data(THUMBNAIL_ENDPOINT)
 
-			new_title = videoData['items'][0]['snippet']['title']
-			channel_name = videoData['items'][0]['snippet']['channelTitle']
-			channel_url = f"https://www.youtube.com/user/{CHANNEL_ID if CHANNEL_NAME == '' else CHANNEL_NAME}"
-			post_date = videoData['items'][0]['snippet']['publishedAt']
-			video_url = f"https://www.youtube.com/watch?v={videoData['items'][0]['id']['videoId']}"
-			video_thumbnail = videoData['items'][0]['snippet']['thumbnails']['high']['url']
-			channel_icon = thumbnailData['items'][0]['snippet']['thumbnails']['high']['url']
+        new_title = videoData['items'][0]['snippet']['title']
+        channel_name = videoData['items'][0]['snippet']['channelTitle']
+        channel_url = f"https://www.youtube.com/user/{CHANNEL_ID if CHANNEL_NAME == '' else CHANNEL_NAME}"
+        post_date = videoData['items'][0]['snippet']['publishedAt']
+        video_url = f"https://www.youtube.com/watch?v={videoData['items'][0]['id']['videoId']}"
+        video_thumbnail = videoData['items'][0]['snippet']['thumbnails']['high']['url']
+        channel_icon = thumbnailData['items'][0]['snippet']['thumbnails']['high']['url']
 
-			if new_title != recent_title:
-				payload = {
+        if new_title != recent_title:
+            payload = {
 		  "embeds": [
 			{
 			  "title": channel_name,
@@ -77,5 +76,8 @@ def main():
 		  "username": "Youtube Video Notifier",
 		  "avatar_url": "https://tinyimg.io/i/A9l3tLC.png"
 		}
-				send(payload)
-				print(f'[+] New Video Uploaded From {(channel_name).capitalize()}!')
+        send(payload)
+        print(f'[+] New Video Uploaded From {(channel_name).capitalize()}!')
+
+if __name__ == "__main__":
+    main()
