@@ -1,0 +1,6 @@
+{
+  "key":"API_KEY",
+  "id":"CHANNEL_ID",
+  "name":"CHANNEL_NAME-(KEEP BLANK IF NONE)",
+  "webhook":"DISCORD_WEBHOOK_URL"
+}
